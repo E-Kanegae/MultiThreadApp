@@ -1,0 +1,24 @@
+package org.ek.sample.future;
+
+import java.util.concurrent.Callable;
+
+public class FutureHost {
+
+	public IData request(final int count, final char c){
+		System.out.println("  request (" + count + ", " + c + ") BEGIN");
+
+		final FutureData future = new FutureData(
+			new Callable<RealData>(){
+				public RealData call(){
+					return new RealData(count, c);
+				}
+			}
+		);
+
+		new Thread(future).start();
+		System.out.println("  request (" + count + ", " + c + ") END");
+
+		return future;
+	}
+
+}
